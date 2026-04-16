@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>EMERG(ENCY): CHARACTER CREATOR</title>
+<title>EMERGENCE[Y]: THE GAME CHARACTER CREATOR</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
@@ -81,6 +81,83 @@ body { font-family:'Lora',serif; background:var(--colour-background); color:var(
 .role-link-btn .role-link-name { font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.06em; color:var(--colour-text); margin-bottom:3px; }
 .role-link-btn .role-link-tagline { font-family:'Space Mono',monospace; font-size:8px; letter-spacing:0.15em; text-transform:uppercase; color:var(--colour-text-muted); }
 .role-link-btn .role-link-arrow { font-family:'Space Mono',monospace; font-size:10px; color:var(--colour-accent-lime); margin-top:8px; display:block; }
+
+/* ── PASSWORD GATE ── */
+.pw-overlay {
+  position:fixed; inset:0; z-index:9999;
+  background:var(--colour-background);
+  display:flex; align-items:center; justify-content:center;
+}
+.pw-overlay.hidden { display:none; }
+.pw-box {
+  text-align:center; padding:48px 40px;
+  background:var(--colour-surface);
+  border:1px solid var(--colour-border-bright);
+  width:min(420px,90vw); position:relative;
+}
+.pw-box::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--colour-accent-lime),var(--colour-accent-cyan));
+}
+.pw-eyebrow { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:var(--colour-text-muted); display:block; margin-bottom:20px; }
+.pw-title { font-family:'Bebas Neue',sans-serif; font-size:42px; letter-spacing:0.06em; color:var(--colour-text); line-height:1; margin-bottom:8px; }
+.pw-sub { font-family:'Lora',serif; font-style:italic; font-size:13px; color:var(--colour-text-muted); margin-bottom:28px; line-height:1.6; }
+.pw-input {
+  width:100%; background:var(--colour-background);
+  border:1px solid var(--colour-border-bright);
+  color:var(--colour-text); font-family:'Space Mono',monospace;
+  font-size:18px; letter-spacing:0.25em; text-align:center;
+  padding:14px 16px; outline:none; text-transform:uppercase;
+  transition:border-color 0.2s; margin-bottom:16px; display:block;
+}
+.pw-input:focus { border-color:var(--colour-accent-lime); }
+.pw-input::placeholder { color:var(--colour-text-muted); font-size:12px; letter-spacing:0.15em; text-transform:none; }
+.pw-error { font-family:'Space Mono',monospace; font-size:9px; color:#ff4f5e; letter-spacing:0.1em; margin-bottom:16px; display:none; }
+.pw-hint { font-family:'Space Mono',monospace; font-size:8px; color:var(--colour-text-muted); letter-spacing:0.1em; margin-top:14px; opacity:0.6; }
+
+/* ── SESSION ID BUTTON ── */
+.session-id-btn {
+  font-family:'Space Mono',monospace; font-size:9px;
+  letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--colour-accent-lime); background:transparent;
+  border:1px solid rgba(212,245,66,0.35);
+  padding:4px 10px; cursor:pointer; transition:all 0.2s;
+}
+.session-id-btn:hover { background:rgba(212,245,66,0.08); border-color:var(--colour-accent-lime); }
+
+/* ── SESSION CHANGE MODAL ── */
+.session-modal {
+  position:fixed; inset:0; z-index:500;
+  background:rgba(4,8,14,0.85);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity 0.25s;
+  backdrop-filter:blur(4px); padding:16px;
+}
+.session-modal.show { opacity:1; pointer-events:all; }
+.session-modal-box {
+  background:var(--colour-surface); border:1px solid var(--colour-border-bright);
+  padding:32px; width:min(400px,95vw); position:relative; text-align:center;
+}
+.session-modal-box::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--colour-accent-lime),var(--colour-accent-cyan));
+}
+.session-modal-title { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:0.06em; color:var(--colour-text); margin-bottom:6px; }
+.session-modal-sub { font-family:'Lora',serif; font-style:italic; font-size:12px; color:var(--colour-text-muted); margin-bottom:20px; line-height:1.6; }
+.session-modal-current { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--colour-accent-lime); margin-bottom:16px; display:block; }
+.session-modal-input {
+  width:100%; background:var(--colour-background);
+  border:1px solid var(--colour-border-bright); color:var(--colour-text);
+  font-family:'Space Mono',monospace; font-size:16px; letter-spacing:0.2em;
+  text-align:center; padding:12px 14px; outline:none; text-transform:uppercase;
+  transition:border-color 0.2s; margin-bottom:14px; display:block;
+}
+.session-modal-input:focus { border-color:var(--colour-accent-lime); }
+.session-modal-input::placeholder { color:var(--colour-text-muted); text-transform:none; font-size:12px; letter-spacing:0.1em; }
+.session-modal-btns { display:flex; gap:10px; }
+.session-modal-btns .btn-primary { flex:1; padding:12px; clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%); }
+.session-modal-cancel { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--colour-text-muted); background:transparent; border:1px solid var(--colour-border); padding:12px 20px; cursor:pointer; transition:all 0.2s; }
+.session-modal-cancel:hover { border-color:var(--colour-border-bright); color:var(--colour-text); }
 
 /* ── TOPBAR ── */
 .topbar {
@@ -337,11 +414,41 @@ body { font-family:'Lora',serif; background:var(--colour-background); color:var(
 <body>
 <div class="noise-overlay"></div>
 
+<!-- PASSWORD GATE -->
+<div class="pw-overlay" id="pwOverlay">
+  <div class="pw-box">
+    <span class="pw-eyebrow">EMERGENCE[Y] · CHARACTER CREATOR</span>
+    <div class="pw-title">SESSION ID</div>
+    <div class="pw-sub">Enter the session ID provided by your facilitator to begin.</div>
+    <input class="pw-input" id="pwInput" type="text" placeholder="Enter session ID…" maxlength="20" autocomplete="off" spellcheck="false">
+    <div class="pw-error" id="pwError">Please enter a session ID to continue.</div>
+    <button class="btn-primary" onclick="submitPassword()" style="width:100%;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)">ENTER →</button>
+    <div class="pw-hint">Ask your facilitator if you don't have a session ID</div>
+  </div>
+</div>
+
+<!-- SESSION CHANGE MODAL -->
+<div class="session-modal" id="sessionModal">
+  <div class="session-modal-box">
+    <div class="session-modal-title">CHANGE SESSION ID</div>
+    <div class="session-modal-sub">Update your session ID. This will apply to any future data recorded.</div>
+    <span class="session-modal-current" id="sessionModalCurrent">Current ID: —</span>
+    <input class="session-modal-input" id="sessionModalInput" type="text" placeholder="New session ID…" maxlength="20" autocomplete="off" spellcheck="false">
+    <div class="session-modal-btns">
+      <button class="session-modal-cancel" onclick="closeSessionChange()">CANCEL</button>
+      <button class="btn-primary" onclick="confirmSessionChange()" style="clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)">UPDATE →</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════════ LANDING ══════════════ -->
 <div class="page active" id="landing">
   <div class="hex-grid"></div>
+  <div style="position:absolute;top:14px;right:clamp(16px,3vw,32px);z-index:10">
+    <button class="session-id-btn" onclick="openSessionChange()" data-session-btn title="Change session ID">ID: —</button>
+  </div>
   <div class="landing-inner">
-    <div class="landing-eyebrow" id="lnd-eyebrow">EMERG(ENCY): THE GAME · Character Creator</div>
+    <div class="landing-eyebrow" id="lnd-eyebrow">EMERGENCE[Y]: THE GAME · Character Creator</div>
     <div class="landing-title">
       <span id="lnd-title-line1">WHO ARE</span><br><span id="lnd-title-line2">YOU IN</span><br><span class="paren" id="lnd-title-year">2030</span>
       <span class="sub" id="lnd-title-sub">: FIND YOUR ROLE</span>
@@ -355,8 +462,11 @@ body { font-family:'Lora',serif; background:var(--colour-background); color:var(
 <!-- ══════════════ QUIZ ══════════════ -->
 <div class="page" id="quiz">
   <div class="topbar">
-    <div><div class="topbar-wordmark" id="quiz-wordmark">EMERG(ENCY)</div><div class="topbar-subtitle" id="quiz-topbar-sub">Character Quiz</div></div>
-    <button class="btn-danger" id="quiz-startover-btn" onclick="goHome()">✕ &nbsp;Start Over</button>
+    <div><div class="topbar-wordmark" id="quiz-wordmark">EMERGENCE[Y]</div><div class="topbar-subtitle" id="quiz-topbar-sub">Character Quiz</div></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="session-id-btn" onclick="openSessionChange()" data-session-btn title="Change session ID">ID: —</button>
+      <button class="btn-danger" id="quiz-startover-btn" onclick="goHome()">✕ &nbsp;Start Over</button>
+    </div>
   </div>
   <div class="quiz-body">
     <div class="quiz-progress-wrap">
@@ -373,8 +483,11 @@ body { font-family:'Lora',serif; background:var(--colour-background); color:var(
 <!-- ══════════════ CHARACTER PAGE ══════════════ -->
 <div class="page" id="charpage">
   <div class="topbar">
-    <div><div class="topbar-wordmark" id="charpage-wordmark">EMERG(ENCY)</div><div class="topbar-subtitle" id="charpage-topbar-sub">Your Character</div></div>
-    <button class="btn-danger" id="charpage-startover-btn" onclick="goHome()">✕ &nbsp;Start Over</button>
+    <div><div class="topbar-wordmark" id="charpage-wordmark">EMERGENCE[Y]</div><div class="topbar-subtitle" id="charpage-topbar-sub">Your Character</div></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="session-id-btn" onclick="openSessionChange()" data-session-btn title="Change session ID">ID: —</button>
+      <button class="btn-danger" id="charpage-startover-btn" onclick="goHome()">✕ &nbsp;Start Over</button>
+    </div>
   </div>
   <div class="charpage-body">
     <span class="charpage-eyebrow" id="charpage-eyebrow">Your role in 2030 Victoria</span>
@@ -392,8 +505,11 @@ body { font-family:'Lora',serif; background:var(--colour-background); color:var(
 <!-- ══════════════ ALL CHARACTERS ══════════════ -->
 <div class="page" id="allchars">
   <div class="topbar">
-    <div><div class="topbar-wordmark" id="allchars-wordmark">EMERG(ENCY)</div><div class="topbar-subtitle" id="allchars-topbar-sub">All Characters</div></div>
-    <button class="btn-danger" id="allchars-startover-btn" onclick="goHome()">✕ &nbsp;Start Over</button>
+    <div><div class="topbar-wordmark" id="allchars-wordmark">EMERGENCE[Y]</div><div class="topbar-subtitle" id="allchars-topbar-sub">All Characters</div></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="session-id-btn" onclick="openSessionChange()" data-session-btn title="Change session ID">ID: —</button>
+      <button class="btn-danger" id="allchars-startover-btn" onclick="goHome()">✕ &nbsp;Start Over</button>
+    </div>
   </div>
   <div class="allchars-body">
     <div class="allchars-title" id="allchars-title">ALL CHARACTERS</div>
@@ -409,8 +525,11 @@ body { font-family:'Lora',serif; background:var(--colour-background); color:var(
 <!-- ══════════════ ADVANCED ══════════════ -->
 <div class="page" id="advanced">
   <div class="topbar">
-    <div><div class="topbar-wordmark" id="adv-wordmark">EMERG(ENCY)</div><div class="topbar-subtitle" id="adv-topbar-sub">Build Your Character</div></div>
-    <button class="btn-danger" id="adv-startover-btn" onclick="goHome()">✕ &nbsp;Start Over</button>
+    <div><div class="topbar-wordmark" id="adv-wordmark">EMERGENCE[Y]</div><div class="topbar-subtitle" id="adv-topbar-sub">Build Your Character</div></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="session-id-btn" onclick="openSessionChange()" data-session-btn title="Change session ID">ID: —</button>
+      <button class="btn-danger" id="adv-startover-btn" onclick="goHome()">✕ &nbsp;Start Over</button>
+    </div>
   </div>
   <div class="advanced-body">
     <div class="locked-banner" id="lockedBanner">✅ Character submitted — your answers are locked in.</div>
@@ -1005,6 +1124,7 @@ const ADV_DROPDOWN_OPTIONS = {
 // ================================================================
 
 // ── State ──
+let sessionPassword = '';
 let currentMode   = null;
 let quizQuestions = [];
 let currentQIndex = 0;
@@ -1035,8 +1155,8 @@ const STAT_CLASS = {
 const CONTENT = {
 
   site: {
-    pageTitle: "EMERG(ENCY): CHARACTER CREATOR",
-    wordmark:  "EMERG(ENCY)"
+    pageTitle: "EMERGENCE[Y]: THE GAME CHARACTER CREATOR",
+    wordmark:  "EMERGENCE[Y]"
   },
 
   landing: {
@@ -1169,12 +1289,60 @@ const CONTENT = {
 }; // ── end CONTENT — edit anything above this line ──────────────
 
 
+// ── PASSWORD ─────────────────────────────────────────────────────
+function submitPassword() {
+  const val = document.getElementById('pwInput').value.trim().toUpperCase();
+  if (!val) {
+    document.getElementById('pwError').style.display = 'block';
+    return;
+  }
+  sessionPassword = val;
+  document.getElementById('pwOverlay').classList.add('hidden');
+  updateSessionIdBtns();
+  showPage('landing');
+}
+
+function updateSessionIdBtns() {
+  const label = 'ID: ' + (sessionPassword || '—');
+  document.querySelectorAll('[data-session-btn]').forEach(el => el.textContent = label);
+}
+
+function openSessionChange() {
+  document.getElementById('sessionModalCurrent').textContent = 'Current ID: ' + (sessionPassword || '—');
+  document.getElementById('sessionModalInput').value = '';
+  document.getElementById('sessionModal').classList.add('show');
+  setTimeout(() => document.getElementById('sessionModalInput').focus(), 100);
+}
+
+function closeSessionChange() {
+  document.getElementById('sessionModal').classList.remove('show');
+}
+
+function confirmSessionChange() {
+  const val = document.getElementById('sessionModalInput').value.trim().toUpperCase();
+  if (!val) return;
+  sessionPassword = val;
+  updateSessionIdBtns();
+  closeSessionChange();
+}
+
+document.getElementById('sessionModalInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') confirmSessionChange();
+  if (e.key === 'Escape') closeSessionChange();
+});
+document.getElementById('sessionModal').addEventListener('click', function(e) {
+  if (e.target === this) closeSessionChange();
+});
+document.getElementById('pwInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') submitPassword();
+});
+
 // ── Boot ─────────────────────────────────────────────────────────
 function init() {
   applyContent();
   buildLandingGrid();
   checkLocked();
-  showPage('landing');
+  // Password gate is shown first; landing shown after password entry
 }
 
 // ── Apply titletext.json to the DOM ─────────────────────────────
@@ -1428,6 +1596,12 @@ function showResult() {
   // Store for charpage
   currentResult = { best, runnerUps, norm };
 
+  // Make role available globally for submission
+  window._assignedRole = best;
+
+  // Push quiz result to Firebase
+  pushQuizResult(best);
+
   // Derive top 2 stats from the player's scores
   const sortedStats = STAT_CONFIG
     .map(cfg => ({ cfg, val: norm[cfg.key] || 0 }))
@@ -1595,6 +1769,30 @@ function clearAdvanced() {
 // To save submissions to Firebase, paste your database URL below.
 // See FIREBASE_SETUP.md for step-by-step instructions.
 const SUBMIT_URL = 'https://emergencey-characters-default-rtdb.firebaseio.com/submissions.json'; // paste your Firebase URL here, e.g. 'https://your-project-default-rtdb.firebaseio.com/submissions.json'
+const QUIZ_SUBMIT_URL = 'https://emergencey-characters-default-rtdb.firebaseio.com/quiz_results.json';
+
+async function pushQuizResult(role) {
+  if (!QUIZ_SUBMIT_URL) return;
+  const now = new Date();
+  const record = {
+    sessionPassword: sessionPassword || '',
+    groupMode: currentMode || 'unknown',
+    assignedRoleId: role.id,
+    assignedRoleName: role.name,
+    assignedRolePrimary: role.primary,
+    assignedRoleSecondary: role.secondary,
+    submittedAt: now.toISOString(),
+    submittedAtNice: now.toLocaleString('en-AU', { dateStyle: 'full', timeStyle: 'short', timeZone: 'Australia/Melbourne' }),
+    scores: { ...scoreTotals },
+  };
+  try {
+    await fetch(QUIZ_SUBMIT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(record),
+    });
+  } catch(e) { console.warn('Quiz result push failed:', e); }
+}
 
 async function submitCharacter() {
   if (isLocked) { alert('Your character is already submitted!'); return; }
@@ -1606,6 +1804,11 @@ async function submitCharacter() {
   data.submittedAtNice = now.toLocaleString('en-AU', {
     dateStyle: 'full', timeStyle: 'short', timeZone: 'Australia/Melbourne'
   });
+  data.sessionPassword = sessionPassword || '';
+  data.groupMode       = currentMode || 'unknown';
+  // For advanced mode, no quiz-assigned role; mark as custom
+  data.assignedRoleId   = 'custom';
+  data.assignedRoleName = data['adv-name'] || 'Custom Character';
 
   // Try to send to remote endpoint if configured
   if (SUBMIT_URL) {
